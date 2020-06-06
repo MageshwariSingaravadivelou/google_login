@@ -4,7 +4,7 @@ import os
 import sqlite3
 
 # Third-party libraries
-from flask import Flask, redirect, request, url_for, render_template
+from flask import Flask, redirect, request, url_for
 from flask_login import (
     LoginManager,
     current_user,
@@ -50,6 +50,7 @@ client = WebApplicationClient(GOOGLE_CLIENT_ID)
 @login_manager.user_loader
 def load_user(user_id):
     return User.get(user_id)
+
 
 @app.route("/")
 def index():
@@ -122,7 +123,6 @@ def callback():
     uri, headers, body = client.add_token(userinfo_endpoint)
     userinfo_response = requests.get(uri, headers=headers, data=body)
 
-
     # You want to make sure their email is verified.
     # The user authenticated with Google, authorized your
     # app, and now you've verified their email through Google!
@@ -149,6 +149,7 @@ def callback():
 
     # Send user back to homepage
     return redirect(url_for("index"))
+
 
 @app.route("/logout")
 @login_required
